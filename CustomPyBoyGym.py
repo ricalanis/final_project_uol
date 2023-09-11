@@ -1,5 +1,6 @@
 from pyboy.pyboy import *
 from AISettings.AISettingsInterface import AISettingsInterface
+import pdb
 class CustomPyBoyGym(PyBoyGymEnv):
     def step(self, list_actions):
         """
@@ -8,7 +9,8 @@ class CustomPyBoyGym(PyBoyGymEnv):
         info = {}
 
         previousGameState = self.aiSettings.GetGameState(self.pyboy)
-
+        # (ricalanis) If we won versus boss, reset game
+ 
         if list_actions[0] == self._DO_NOTHING:
             pyboy_done = self.pyboy.tick()
         else:
@@ -31,14 +33,19 @@ class CustomPyBoyGym(PyBoyGymEnv):
 
         observation = self._get_observation()
 
-        done = pyboy_done or self.pyboy.game_wrapper().game_over()
+        boss_defeated = self.game_wrapper.score >= 3830 and self.pyboy.get_memory_value(0xD093)==0
+
+        done = pyboy_done or self.pyboy.game_wrapper().game_over() or boss_defeated
+
+        if boss_defeated: print("*******Won vs Boss***********")
+
         return observation, reward, done, info
 
     def setAISettings(self, aisettings: AISettingsInterface):
         self.aiSettings = aisettings
 
     def reset(self):
-        """ Reset (or start) the gym environment throught the game_wrapper """
+        """ Reset (or start) the gym environment thrUought the game_wrapper """
         if not self._started:
             self.game_wrapper.start_game(**self._kwargs)
             self._started = True
