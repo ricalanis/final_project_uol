@@ -44,6 +44,7 @@ class CustomPyBoyGym(PyBoyGymEnv):
             self._started = True
         else:
             self.game_wrapper.reset_game()
+        self.pyboy.load_state(open("games/KIRBY.gb.state", "rb"))
 
         # release buttons if not pressed now but were pressed in the past
         for pressedFromBefore in [pressed for pressed in self._button_is_pressed if self._button_is_pressed[pressed] == True]: # get all buttons currently pressed
