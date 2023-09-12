@@ -108,5 +108,5 @@ class KirbyAI(AISettingsInterface):
 
     def GetBossHyperParameters(self) -> Config:
         config = self.GetHyperParameters()
-        config.exploration_rate_decay = 0.99999975
+        config.exploration_rate_decay = 0.9999975
         return config

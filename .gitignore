@@ -1,7 +1,7 @@
 *.ram
 Kirby_Dream_Land.gb
 Super_Mario_Land.gb
-
+checkpoints/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -10,7 +10,7 @@ class GameState():
 class Config():
     def __init__(self):
         self.exploration_rate = 1 # explore 100% of times, this value is changed in the act function
-        self.exploration_rate_decay = 0.9999995 #0.99999975
+        self.exploration_rate_decay = 0.9999975 #0.99999975
         self.exploration_rate_min = 0.001
 
         """
