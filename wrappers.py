@@ -2,6 +2,7 @@ import gym
 from skimage import transform
 from torchvision import transforms as T
 from gym.spaces import Box
+import pdb
 
 class ResizeObservation(gym.ObservationWrapper):
     def __init__(self, env, shape):

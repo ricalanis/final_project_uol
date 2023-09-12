@@ -6,6 +6,21 @@ from gym.spaces import Discrete, MultiDiscrete, Box
 from pyboy.botsupport.constants import TILES
 from pyboy.utils import WindowEvent
 import numpy as np
+import torch
+
+def rgb_to_grayscale(rgb_image):
+    # Check if GPU is available, and move the RGB image to the GPU if available
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    rgb_tensor = torch.from_numpy(rgb_image).to(device)
+
+    # Convert RGB to grayscale using luminance method
+    grayscale_tensor = torch.sum(rgb_tensor * torch.tensor([0.299, 0.587, 0.114], device=device), dim=2, keepdim=True)
+
+    # Convert the grayscale tensor back to a NumPy array
+    grayscale_image = (grayscale_tensor.squeeze().cpu().numpy() * 255).astype(np.uint8)
+
+    return grayscale_image
+
 
 class CustomPyBoyGym(PyBoyGymEnv):
     def __init__(self, pyboy, observation_type="tiles", action_type="toggle", simultaneous_actions=False, **kwargs):
@@ -53,7 +68,11 @@ class CustomPyBoyGym(PyBoyGymEnv):
         # Building the observation_space
         if observation_type == "raw":
             screen = np.asarray(self.pyboy.botsupport_manager().screen().screen_ndarray())
-            self.observation_space = Box(low=0, high=255, shape=screen.shape, dtype=np.uint8)
+            screen = rgb_to_grayscale(screen)
+            self.observation_space = MultiDiscrete(screen)
+
+        elif observation_type == "features":
+            raise NotImplementedError("Not implemented yet (ricalanis)")
         elif observation_type in ["tiles", "compressed", "minimal"]:
             size_ids = TILES
             if observation_type == "compressed":
@@ -77,7 +96,17 @@ class CustomPyBoyGym(PyBoyGymEnv):
         self.observation_type = observation_type
 
         self._started = False
-        self._kwargs = kwargs    
+        self._kwargs = kwargs 
+
+    def _get_observation(self):
+        if self.observation_type == "raw":
+            screen = np.asarray(self.pyboy.botsupport_manager().screen().screen_ndarray())
+            observation = rgb_to_grayscale(screen)
+        elif self.observation_type in ["tiles", "compressed", "minimal"]:
+            observation = self.game_wrapper._game_area_np(self.observation_type)
+        else:
+            raise NotImplementedError(f"observation_type {self.observation_type} is invalid")
+        return observation   
 
     def step(self, list_actions):
         """
