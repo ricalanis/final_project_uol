@@ -19,7 +19,7 @@ from functions import alphanum_key
 episodes = 40000
 # gym variables  documentation: https://docs.pyboy.dk/openai_gym.html#pyboy.openai_gym.PyBoyGymEnv
 observation_types = ["raw", "tiles", "compressed", "minimal", "features"]
-observation_type = observation_types[0]
+observation_type = observation_types[-1]
 action_types = ["press", "toggle", "all"]
 action_type = action_types[0]
 gameDimentions = (20, 16)

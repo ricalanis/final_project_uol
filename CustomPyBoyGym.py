@@ -7,6 +7,8 @@ from pyboy.botsupport.constants import TILES
 from pyboy.utils import WindowEvent
 import numpy as np
 import torch
+import timm
+model = timm.create_model("resnet50d", pretrained=True, features_only=True)
 
 def rgb_to_grayscale(rgb_image):
     # Check if GPU is available, and move the RGB image to the GPU if available
@@ -72,7 +74,11 @@ class CustomPyBoyGym(PyBoyGymEnv):
             self.observation_space = MultiDiscrete(screen)
 
         elif observation_type == "features":
-            raise NotImplementedError("Not implemented yet (ricalanis)")
+            screen = np.asarray(self.pyboy.botsupport_manager().screen().screen_ndarray())
+            screentensor = torch.as_tensor(np.array(screen, dtype=np.float32)).transpose(2,0)[None]
+            output = model(screentensor)
+            self.observation_space = MultiDiscrete(output[-4][0].transpose(0,2).sum(-1).detach().numpy().astype(int))
+
         elif observation_type in ["tiles", "compressed", "minimal"]:
             size_ids = TILES
             if observation_type == "compressed":
@@ -102,6 +108,11 @@ class CustomPyBoyGym(PyBoyGymEnv):
         if self.observation_type == "raw":
             screen = np.asarray(self.pyboy.botsupport_manager().screen().screen_ndarray())
             observation = rgb_to_grayscale(screen)
+        elif self.observation_type == "features":
+            screen = np.asarray(self.pyboy.botsupport_manager().screen().screen_ndarray())
+            screentensor = torch.as_tensor(np.array(screen, dtype=np.float32)).transpose(2,0)[None]
+            output = model(screentensor)
+            observation = output[-4][0].transpose(0,2).sum(-1).detach().numpy().astype(int)
         elif self.observation_type in ["tiles", "compressed", "minimal"]:
             observation = self.game_wrapper._game_area_np(self.observation_type)
         else:
