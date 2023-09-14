@@ -70,8 +70,7 @@ class CustomPyBoyGym(PyBoyGymEnv):
         # Building the observation_space
         if observation_type == "raw":
             screen = np.asarray(self.pyboy.botsupport_manager().screen().screen_ndarray())
-            screen = rgb_to_grayscale(screen)
-            self.observation_space = MultiDiscrete(screen)
+            self.observation_space = MultiDiscrete(rgb_to_grayscale(screen))
 
         elif observation_type == "features":
             screen = np.asarray(self.pyboy.botsupport_manager().screen().screen_ndarray())
