@@ -99,7 +99,7 @@ class KirbyAI(AISettingsInterface):
         config.deque_size = 300000
         config.batch_size = 64
         config.save_every = 2e4
-        config.learning_rate_decay = 0.9995
+        config.learning_rate_decay = 0.99999985
         config.gamma = 0.9
         config.learning_rate = 0.0005
         config.burnin = 100
