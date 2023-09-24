@@ -94,19 +94,19 @@ class KirbyAI(AISettingsInterface):
 
     def GetHyperParameters(self) -> Config:
         config = Config()
-        config.exploration_rate_decay = 0.9999975
+        config.exploration_rate_decay = 0.9995
         config.exploration_rate_min = 0.01
-        config.deque_size = 500000
-        config.batch_size = 64
-        config.save_every = 2e5
-        config.learning_rate_decay = 0.9999985
-        config.gamma = 0.8
-        config.learning_rate = 0.0002
-        config.burnin = 1000
-        config.sync_every = 100
+        config.deque_size = 300000
+        config.batch_size = 128
+        config.save_every = 2e4
+        config.learning_rate_decay = 0.9995
+        config.gamma = 0.9
+        config.learning_rate = 0.0005
+        config.burnin = 100
+        config.sync_every = 75
         return config
 
     def GetBossHyperParameters(self) -> Config:
         config = self.GetHyperParameters()
-        config.exploration_rate_decay = 0.9999975
+        config.exploration_rate_decay = 0.9995
         return config

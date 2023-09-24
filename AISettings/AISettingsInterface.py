@@ -10,25 +10,25 @@ class GameState():
 class Config():
     def __init__(self):
         self.exploration_rate = 1 # explore 100% of times, this value is changed in the act function
-        self.exploration_rate_decay = 0.9999975 #0.99999975
+        self.exploration_rate_decay = 0.9995 #0.99999975
         self.exploration_rate_min = 0.001
 
         """
             Memory
         """
-        self.deque_size = 400000
-        self.batch_size = 256
-        self.save_every = 5e5  # no. of experiences between saving Mario Net
+        self.deque_size = 300000
+        self.batch_size = 128
+        self.save_every = 2e4  # no. of experiences between saving Mario Net
 
         """
             Q learning
         """
         self.gamma = 0.9
-        self.learning_rate = 0.000250
+        self.learning_rate = 0.0005
         self.learning_rate_decay = 0.99999985
-        self.burnin = 1e4  # min. experiences before training
-        self.learn_every = 3  # no. of experiences between updates to Q_online
-        self.sync_every = 1e3  # no. of experiences between Q_target & Q_online sync
+        self.burnin = 100  # min. experiences before training
+        self.learn_every = 2  # no. of experiences between updates to Q_online
+        self.sync_every = 75  # no. of experiences between Q_target & Q_online sync
 
 
 class AISettingsInterface:
