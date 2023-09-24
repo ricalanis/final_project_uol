@@ -97,7 +97,7 @@ class KirbyAI(AISettingsInterface):
         config.exploration_rate_decay = 0.9995
         config.exploration_rate_min = 0.01
         config.deque_size = 300000
-        config.batch_size = 128
+        config.batch_size = 64
         config.save_every = 2e4
         config.learning_rate_decay = 0.9995
         config.gamma = 0.9
