@@ -1,0 +1,11 @@
+exploration_rate = 1
+exploration_rate_decay = 0.9995
+exploration_rate_min = 0.01
+deque_size = 300000
+batch_size = 64
+gamma (discount parameter) = 0.9
+learning_rate = 0.0005
+learning_rate_decay = 0.99999985
+burnin = 100
+learn_every = 2
+sync_every = 75
