@@ -5,7 +5,6 @@ import numpy as np
 import torch
 from AISettings.AISettingsInterface import Config
 from model import DDQN
-import pdb
 
 #based on pytorch RL tutorial by yfeng997: https://github.com/yfeng997/MadMario/blob/master/agent.py
 class AIPlayer:

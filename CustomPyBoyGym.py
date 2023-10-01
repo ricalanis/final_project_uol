@@ -1,6 +1,5 @@
 from pyboy.pyboy import *
 from AISettings.AISettingsInterface import AISettingsInterface
-import pdb
 from gym import Env
 from gym.spaces import Discrete, MultiDiscrete, Box
 from pyboy.botsupport.constants import TILES
