@@ -1,5 +1,5 @@
 # Introduction
-This is our project for Reinforcement Learning with PyBoy with different levels of abstraction, where we trained agents to play Kirby, with different levels of understanding of the game: Memory Rata, Tiles and Pixel data. 
+This is our project for Reinforcement Learning with PyBoy with different levels of abstraction, where we trained agents to play Kirby, with different levels of understanding of the game: In-Memory data, Tiles and Pixel data. 
 
 # Requirements
 - Python3.7 on Windows
